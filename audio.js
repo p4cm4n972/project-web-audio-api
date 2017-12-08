@@ -16,12 +16,15 @@ var contexteCanvas = canvas.getContext('2d');
 contexteCanvas.clearRect(0, 0, 600, 300);
 
 function dessiner() {
-    console.log('dessin');
     dessin = requestAnimationFrame(dessiner);
     analyseur.getByteTimeDomainData(tableauDonnees);
-    console.log(tableauDonnees);
     contexteCanvas.fillStyle = 'rgb(200, 200, 200)';
     contexteCanvas.fillRect(0, 0, 600, 300);
+    contexteCanvas.lineWidth = 2;
+    contexteCanvas.strokeStyle = 'rgb(0, 0, 0)';
+
+    contexteCanvas.beginPath();
+
     var largeurSegment = 600 * 1.0 / tailleMemoireTampon;
     var x = 0;
     for(var i = 0; i < tailleMemoireTampon; i++) {
@@ -39,8 +42,9 @@ function dessiner() {
            }
            contexteCanvas.lineTo(canvas.width, canvas.height/2);
            contexteCanvas.stroke();
-           dessiner();
-        };
+
+          };
+          dessiner();
 
 
 
