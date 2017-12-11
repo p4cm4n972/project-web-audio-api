@@ -13,7 +13,7 @@ gradient.addColorStop(.5,"red");
 
 
 setupAudioNodes();
-loadSound("./son.mp3");
+loadSound("./orelsan.opus");
 
 function setupAudioNodes () {
     console.log('setup');
@@ -71,26 +71,45 @@ function start(sourceNode) {
 }
 javascriptNode.onaudioprocess = function() {
     var tampon = analyser.frequencyBinCount;
-    var array = new Uint8Array(tampon);
-    analyser.getByteFrequencyData(array);
+    var array1 = new Uint8Array(tampon);
+    var array2 = new Uint8Array(tampon);
+    analyser.getByteFrequencyData(array1);
+    analyser.getByteTimeDomainData(array2);
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, 300, 150);
-    ctx.fillStyle = 'rgb(0, 0, 0)';
+    ctx.fillStyle = 'rgb(255, 0, 0)';
     ctx.fillRect(0, 0, 300, 150);
-    var largeurBarre = (150 / tampon) * 5;
+    var largeurBarre = (150 / tampon) * 10;
     var hauteurBarreB;
     var x = 0;
-
+    ctx.fillStyle = 'rgb(0, 0, 0)';
+    ctx.fillRect(0, 0, 300, 150);
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = 'rgb(255, 0, 0)';
+    
+    ctx.beginPath();
+    var segment = 300 * 1.0 / array1.length;
+    var w = 0;
     function frequence() {
 
-        for(var i = 0; i < array.length; i++) {
+        for(var i = 0; i < tampon; i++) {
             
-            hauteurBarreB = array[i]/1.5;
+            hauteurBarreB = array1[i]/1.5;
             ctx.fillStyle = gradient;
             ctx.fillRect(x,150-hauteurBarreB/2,largeurBarre,hauteurBarreB);
-    
             x += largeurBarre + 1;
+
+            var v = array2[i] / 128.0;
+            var z = v * 150 / 2;
+            if(i === 0) {
+                ctx.moveTo(w, z);
+              } else {
+                ctx.lineTo(w, z);
+              }
+              w += segment;
           }
-        };
+          ctx.lineTo(canvas.width, canvas.height/2);
+          ctx.stroke();
+    };
     frequence();
     };
