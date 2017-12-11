@@ -72,8 +72,7 @@ function frequence() {
               var x = 0;
               for(var i = 0; i < tailleMemoireTamponB; i++) {
                   hauteurBarreB = tableauDonneesB[i]/2;
-          
-                  contexteCanvasB.fillStyle = 'rgb(' + (hauteurBarreB+100) + ',50,50)';
+                  contexteCanvasB.fillStyle = 'rgb(' + (hauteurBarreB+100) + ','+(hauteurBarreB+ 50) +',50)';
                   contexteCanvasB.fillRect(x,150-hauteurBarreB/2,largeurBarreB,hauteurBarreB);
           
                   x += largeurBarreB + 1;
